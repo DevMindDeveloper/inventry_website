@@ -85,11 +85,11 @@ col1, col2 = st.columns([10, 4])
 with col1:
     if st.button(f"➕ Add Product ({30-st.session_state.num_products} Items)"):
         st.session_state.num_products += 1
-        st.experimental_rerun()
+        # st.experimental_rerun()
 with col2:
     if st.session_state.num_products > 1 and st.button("➖ Remove Last Product"):
         st.session_state.num_products -= 1
-        st.experimental_rerun()
+        # st.experimental_rerun()
 
 # Handle form submission outside the form
 if submitted:

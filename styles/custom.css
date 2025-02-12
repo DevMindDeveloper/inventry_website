@@ -1,0 +1,30 @@
+/* Main container styles */
+.main {
+    padding: 2rem;
+}
+
+/* Form styling */
+.stForm {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Table styling */
+.stDataFrame {
+    margin-top: 1rem;
+}
+
+/* Button styling */
+.stButton>button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Success/Error message styling */
+.stSuccess, .stError {
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+}

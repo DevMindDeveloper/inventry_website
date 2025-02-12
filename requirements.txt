@@ -1,0 +1,8 @@
+streamlit
+pandas
+datetime
+os
+utils
+reportlab
+json
+pathlib

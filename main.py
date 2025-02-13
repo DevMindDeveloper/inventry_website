@@ -81,9 +81,7 @@ with form:
             })
 
     # Submit button
-    col1 = st.columns(1)
-    with col1:
-        submitted = form.form_submit_button("Generate Invoice")
+    submitted = form.form_submit_button("Generate Invoice")
 
 # Add/Remove product buttons
 col1, col2 = st.columns([10, 4])

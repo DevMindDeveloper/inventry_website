@@ -59,13 +59,13 @@ with form:
     for i in range(st.session_state.num_products):
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            product_name = st.text_input(f"Product Name #{i+1}")
+            product_name = st.text_input(f"**{i+1}. Product Name**")
         with col2:
-            quantity_box = st.number_input(f"Quantity Box #{i+1}", min_value=0)
+            quantity_box = st.number_input(f"{tab_space}Quantity Box", min_value=0, key=f"quantity_{i}")
         with col3:
-            pieces_sent = st.number_input(f"Pieces Sent #{i+1}", min_value=0)
+            pieces_sent = st.number_input(f"{tab_space}Pieces Sent", min_value=0, key=f"pieces_sent_{i}")
         with col4:
-            price_per_piece = st.number_input(f"Price per Piece #{i+1} (Rs)", min_value=0)
+            price_per_piece = st.number_input(f"{tab_space}Price per Piece (Rs)", min_value=0, key=f"price_per_piece_{i}")
 
         total_price = pieces_sent * price_per_piece
         if product_name and (quantity_box > 0 or pieces_sent > 0):

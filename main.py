@@ -56,6 +56,9 @@ with form:
 
     # Dynamic product rows
     products = []
+
+    tab_space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+    
     for i in range(st.session_state.num_products):
         col1, col2, col3, col4 = st.columns(4)
         with col1:

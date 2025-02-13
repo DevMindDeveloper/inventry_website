@@ -40,4 +40,4 @@ class DataManager:
         """Get all invoices"""
         return pd.read_csv(self.invoices_file)
 
-ob = DataManager()
+# ob = DataManager()

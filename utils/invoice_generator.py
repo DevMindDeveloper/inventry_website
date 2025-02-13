@@ -8,6 +8,11 @@ import json
 class InvoiceGenerator:
     def __init__(self):
         self.styles = getSampleStyleSheet()
+
+        self.wrap_style = self.styles["BodyText"]
+
+        self.bold_style = ParagraphStyle(name="BoldStyle", fontName="Helvetica", fontSize=12)
+
         self.invoice_style = ParagraphStyle(
             'CustomStyle',
             fontSize=12,
@@ -70,35 +75,39 @@ class InvoiceGenerator:
         )
 
         # details with invoice number and date and name and address
-        details_data_1 = [
-            [invoice_data['customer_name'], f"Invoice # {invoice_data['invoice_number']}"]
-        ]
+        details_data_1 = [[
+            Paragraph(f"<b>Name:</b> {invoice_data['customer_name']}", self.bold_style),
+            f"Invoice # {invoice_data['invoice_number']}"
+            ]]
         details_table_1 = Table(details_data_1, colWidths=[4*inch, 4*inch])
         details_table_1.setStyle(TableStyle([
             ('ALIGN', (0, 0), (0, 0), 'LEFT'),
             ('ALIGN', (-1, -1), (-1, -1), 'RIGHT'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
             ('FONTSIZE', (0, 0), (-1, -1), 12),
-            ('LEFTPADDING', (0, 0), (-1, -1), 10),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 100),
+            ('LEFTPADDING', (0, 0), (-1, -1), 30),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 70),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
         ]))
-        details_data_2 = [
-            [invoice_data['customer_address'], invoice_data['date']]
-        ]
+        details_data_2 = [[
+            Paragraph(f"<b>Address:</b> {invoice_data['customer_address']}", self.bold_style),
+            f"Date : {invoice_data['date']}"
+            ]]
         details_table_2 = Table(details_data_2, colWidths=[4*inch, 4*inch])
         details_table_2.setStyle(TableStyle([
             ('ALIGN', (0, 0), (0, 0), 'LEFT'),
             ('ALIGN', (-1, -1), (-1, -1), 'RIGHT'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
             ('FONTSIZE', (0, 0), (-1, -1), 12),
-            ('LEFTPADDING', (0, 0), (-1, -1), 10),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 100),
+            ('LEFTPADDING', (0, 0), (-1, -1), 30),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 70),
             ('TOPPADDING', (0, 0), (-1, -1), 0),
         ]))
 
         # Product details table with border
-        product_headers = ['Product Name', 'Quantity Box', 'Pieces Sent', 'Price per Piece', 'Total Price']
+        product_headers = ['S.NO', 'Product Name', 'Quantity Box', 'Pieces Sent', 'Price per Piece', 'Total Price']
         product_data = [product_headers]
 
         # Parse items if they're stored as a JSON string
@@ -107,9 +116,10 @@ class InvoiceGenerator:
             items = json.loads(items)
 
         total_pieces = 0
-        for item in items:
+        for ind, item in enumerate(items, start=1):
             product_data.append([
-                item['product_name'],
+                ind,
+                Paragraph(item['product_name'], self.wrap_style),
                 str(item['quantity_box']),
                 str(item['pieces_sent']),
                 f"{item['price_per_piece']:.2f}/-",
@@ -117,13 +127,14 @@ class InvoiceGenerator:
             ])
             total_pieces += int(item['pieces_sent'])
 
-        products_table = Table(product_data, colWidths=[1.5*inch, 1.5*inch, 1.5*inch, 1.5*inch, 1.5*inch])
+        products_table = Table(product_data, colWidths=[0.5*inch, 1.75*inch, 1.25*inch, 1.2*inch, 1.35*inch, 1.4*inch])
         products_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 1, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('FONTSIZE', (0, 0), (-1, 0), 12),
             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),

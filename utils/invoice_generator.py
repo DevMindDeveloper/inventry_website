@@ -164,7 +164,7 @@ class InvoiceGenerator:
             ])
             total_pieces += int(item['quantity'])
 
-        products_table = Table(product_data, colWidths=[0.5*inch, 1.00*inch, 0.93*inch, 0.90*inch, 0.91*inch, 0.95*inch, 0.80*inch, 0.80*inch, 0.80*inch])
+        products_table = Table(product_data, colWidths=[0.5*inch, 1.00*inch, 0.93*inch, 0.90*inch, 0.91*inch, 0.95*inch, 0.82*inch, 0.80*inch, 0.80*inch])
         products_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 1, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),

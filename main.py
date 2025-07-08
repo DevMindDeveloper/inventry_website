@@ -326,7 +326,7 @@ if submitted:
             # Generate PDF
             os.makedirs('generated_invoices', exist_ok=True)
             safe_customer_name = "".join(x for x in customer_name if x.isalnum() or x.isspace()).strip()
-            pdf_path = f"generated_invoices/{safe_customer_name}_{invoice_number}.pdf"
+            pdf_path = f"extra/generated_invoices/{safe_customer_name}_{invoice_number}.pdf"
             invoice_generator.generate_invoice(invoice_data, pdf_path)
 
             # Success message and download button (outside form)
@@ -346,3 +346,27 @@ if submitted:
             st.error("Please fill in all required fields and add at least one product")
     # else:
     #     st.error("Inovice is FULL! Remove items more than 30 and create a new inovice for it.")
+
+# Add sidebar for downloading invoice by number
+st.sidebar.header("Download Invoice")
+download_invoice_number = st.sidebar.text_input("Enter Invoice Number")
+download_btn = st.sidebar.button("Find Invoice")
+
+if download_btn and download_invoice_number:
+    invoice = data_manager.get_invoice_by_number(download_invoice_number)
+    if invoice:
+        import tempfile
+        safe_customer_name = "".join(x for x in invoice.get('customer_name', '') if x.isalnum() or x.isspace()).strip()
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+            pdf_path = tmp_file.name
+        invoice_generator.generate_invoice(invoice, pdf_path)
+        with open(pdf_path, "rb") as pdf_file:
+            pdf_bytes = pdf_file.read()
+        st.sidebar.download_button(
+            label=f"Download Invoice #{download_invoice_number} PDF",
+            data=pdf_bytes,
+            file_name=f"{safe_customer_name}_{download_invoice_number}.pdf",
+            mime="application/pdf"
+        )
+    else:
+        st.sidebar.error("Invoice not found.")

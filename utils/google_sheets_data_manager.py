@@ -36,4 +36,19 @@ class GoogleSheetsDataManager:
         # Ensure the order matches the sheet headers
         headers = self.sheet.row_values(1)
         row = [invoice_data.get(h, "") for h in headers]
-        self.sheet.append_row(row) 
+        self.sheet.append_row(row)
+
+    def get_invoice_by_number(self, invoice_number):
+        records = self.sheet.get_all_records()
+        for record in records:
+            if str(record.get("invoice_number")) == str(invoice_number):
+                # Parse items if stored as JSON
+                if "items" in record:
+                    items = record["items"]
+                    if isinstance(items, str):
+                        try:
+                            record["items"] = json.loads(items)
+                        except Exception:
+                            pass
+                return record
+        return None 

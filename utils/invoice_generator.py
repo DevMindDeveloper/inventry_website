@@ -1,6 +1,6 @@
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, HRFlowable
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, HRFlowable, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER
@@ -56,8 +56,8 @@ class InvoiceGenerator:
         # Main border
         main_table_style = TableStyle([
             ('BOX', (0, 0), (-1, -1), 1, colors.black),
-            ('TOPPADDING', (0, 0), (-1, -1), 10),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 5),  # Reduced padding
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 5),  # Reduced padding
             ('LEFTPADDING', (0, 0), (-1, -1), 15),
             ('RIGHTPADDING', (0, 0), (-1, -1), 20),
         ])
@@ -73,7 +73,7 @@ class InvoiceGenerator:
                      
         # Organization header
         org_name = Paragraph("MZ TRADERS PESHAWAR", self.org_header_style)
-        manager_details = Paragraph("SALE INOVICE", self.org_header_style)
+        manager_details = Paragraph("SALE INVOICE", self.org_header_style)
 
         # Horizontal separator line
         separator = HRFlowable(
@@ -84,11 +84,11 @@ class InvoiceGenerator:
             spaceAfter=0
         )
 
-        # details with invoice number and date and name and address
+        # Details with invoice number, date, name, and address
         details_data_1 = [[
             Paragraph(f"<b>Name:</b> {invoice_data['customer_name']}", self.bold_style),
             f"Invoice # {invoice_data['invoice_number']}"
-            ]]
+        ]]
         details_table_1 = Table(details_data_1, colWidths=[4*inch, 4*inch])
         details_table_1.setStyle(TableStyle([
             ('ALIGN', (0, 0), (0, 0), 'LEFT'),
@@ -98,12 +98,13 @@ class InvoiceGenerator:
             ('FONTSIZE', (0, 0), (-1, -1), 12),
             ('LEFTPADDING', (0, 0), (-1, -1), 30),
             ('RIGHTPADDING', (0, 0), (-1, -1), 85),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 2),  # Reduced padding
+            ('TOPPADDING', (0, 0), (-1, -1), 2),  # Reduced padding
         ]))
         details_data_2 = [[
             Paragraph(f"<b>Address:</b> {invoice_data['customer_address']}", self.bold_style),
             f"Date : {invoice_data['date']}"
-            ]]
+        ]]
         details_table_2 = Table(details_data_2, colWidths=[4*inch, 4*inch])
         details_table_2.setStyle(TableStyle([
             ('ALIGN', (0, 0), (0, 0), 'LEFT'),
@@ -113,24 +114,25 @@ class InvoiceGenerator:
             ('FONTSIZE', (0, 0), (-1, -1), 12),
             ('LEFTPADDING', (0, 0), (-1, -1), 30),
             ('RIGHTPADDING', (0, 0), (-1, -1), 70),
-            ('TOPPADDING', (0, 0), (-1, -1), 0),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 2),  # Reduced padding
+            ('TOPPADDING', (0, 0), (-1, -1), 2),  # Reduced padding
         ]))
         details_data_3 = [[
             Paragraph(f"<b>Order Booker:</b> {invoice_data['order_booker_name']}", self.bold_style)
-            ]]
+        ]]
         details_table_3 = Table(details_data_3, colWidths=[8*inch])
         details_table_3.setStyle(TableStyle([
             ('ALIGN', (0, 0), (0, 0), 'LEFT'),
-            ('ALIGN', (-1, -1), (-1, -1), 'RIGHT'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
             ('FONTSIZE', (0, 0), (-1, -1), 12),
             ('LEFTPADDING', (0, 0), (-1, -1), 30),
             ('RIGHTPADDING', (0, 0), (-1, -1), 70),
-            ('TOPPADDING', (0, 0), (-1, -1), 0),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 2),  # Reduced padding
+            ('TOPPADDING', (0, 0), (-1, -1), 2),  # Reduced padding
         ]))
 
-        # Product details table with border
+        # Product details table
         product_headers = [
             Paragraph('S#', header_style),
             Paragraph('Product<br/>Description', header_style),
@@ -166,7 +168,7 @@ class InvoiceGenerator:
 
         products_table = Table(product_data, colWidths=[0.5*inch, 1.00*inch, 0.93*inch, 0.90*inch, 0.91*inch, 0.95*inch, 0.82*inch, 0.80*inch, 0.80*inch])
         products_table.setStyle(TableStyle([
-            ('BOX', (0, 0), (-1, -1), 1, colors.black),
+            ('BOX', (0, 0), (-1, -1), 1, colors.black),  # Add border to product table
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -178,36 +180,45 @@ class InvoiceGenerator:
             ('RIGHTPADDING', (0, 0), (-1, -1), 10),
             ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
             ('FONTSIZE', (0, 1), (-1, -1), 10),
+            # ('LEFTPADDING', (0, 0), (-1, -1), 15),
+            # ('RIGHTPADDING', (0, 0), (-1, -1), 15),
+            # ('TOPPADDING', (0, 0), (-1, -1), 10),
+            # ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
         ]))
 
         # Summary
         summary_data = [
             [f"Total Pieces: {total_pieces}"],
-            [ f"Net Total: {invoice_data['total_amount']:.2f}/-"]
+            [f"Net Total: {invoice_data['total_amount']:.2f}/-"]
         ]
-        summary_table = Table(summary_data, colWidths=[4*inch, 4*inch])
+        summary_table = Table(summary_data, colWidths=[8*inch])
         summary_table.setStyle(TableStyle([
-            # ('ALIGN', (0, 0), (0, 0), 'LEFT'),
-            ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+            # ('BOX', (0, 0), (-1, -1), 0, colors.black),  # Add border to summary table
+            ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
             ('FONTSIZE', (0, 0), (-1, -1), 12),
+            ('TOPPADDING', (0, 0), (-1, -1), 5),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+            ('LEFTPADDING', (0, 0), (-1, -1), 25),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 25),
         ]))
 
-        # Wrap all content in the main border
-        content = [
+        # Wrap header and customer details in the main border
+        main_content = [
             [org_name],
             [manager_details],
             [separator],
             [details_table_1],
-            [details_table_2],  
-            [details_table_3],  
-            [products_table],
-            [summary_table]
+            [details_table_2],
+            [details_table_3]
         ]
-
-        main_table = Table(content, colWidths=[8*inch])
+        main_table = Table(main_content, colWidths=[8*inch])
         main_table.setStyle(main_table_style)
         elements.append(main_table)
+        elements.append(Spacer(1, 12))  # Add vertical space (12 points) between main_table and products_table
+        elements.append(products_table)
+        elements.append(Spacer(1, 12))  # Add vertical space (12 points) between main_table and products_table
+        elements.append(summary_table)
 
         # Generate PDF
         doc.build(elements)

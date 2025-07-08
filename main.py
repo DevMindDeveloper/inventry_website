@@ -331,7 +331,7 @@ if submitted:
             # Generate PDF
             os.makedirs('generated_invoices', exist_ok=True)
             safe_customer_name = "".join(x for x in customer_name if x.isalnum() or x.isspace()).strip()
-            pdf_path = f"extra/generated_invoices/{safe_customer_name}_{invoice_number}.pdf"
+            pdf_path = f"generated_invoices/{safe_customer_name}_{invoice_number}.pdf"
             invoice_generator.generate_invoice(invoice_data, pdf_path)
 
             # Success message and download button (outside form)

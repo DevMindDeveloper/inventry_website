@@ -114,7 +114,7 @@ with form:
         "MULTI PURPOSE FOAM CLEANER 650 ML",
         "ENGINE SURFACE CLEANER 650ML",
         "ANTIRUST LUBRICANT 100 ML",
-        "ANTIRUSTproduct_name LUBRICANT 220 ML",
+        "ANTIRUST LUBRICANT 220 ML",
         "HARD PASTE CAR WAX 180 GRM",
         "TONE ROYALITY FOR HER",
         "TONE WONDER FOR HER",
@@ -158,7 +158,7 @@ with form:
         "MULTI PURPOSE FOAM CLEANER 650 ML":390,
         "ENGINE SURFACE CLEANER 650ML":420,
         "ANTIRUST LUBRICANT 100 ML":190,
-        "ANTIRUSTproduct_name LUBRICANT 220 ML":300,
+        "ANTIRUST LUBRICANT 220 ML":300,
         "HARD PASTE CAR WAX 180 GRM":700,
         "TONE ROYALITY FOR HER":580,
         "TONE WONDER FOR HER":580,
@@ -289,13 +289,13 @@ with col1:
     # if st.button(f"➕ Add Product ({30-st.session_state.num_products} Items)"):
     if st.button(f"➕ Add Product"):
         st.session_state.num_products += 1
-        # st.experimental_rerun()
-        st.rerun()
+        st.experimental_rerun()
+        # st.rerun()
 with col2:
     if st.session_state.num_products > 1 and st.button("➖ Remove Last Product"):
         st.session_state.num_products -= 1
-        # st.experimental_rerun()
-        st.rerun()
+        st.experimental_rerun()
+        # st.rerun()
 
 # Handle form submission outside the form
 if submitted:

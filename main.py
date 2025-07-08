@@ -202,7 +202,7 @@ with form:
         "MULTI PURPOSE FOAM CLEANER 650 ML":12,
         "ENGINE SURFACE CLEANER 650ML":12,
         "ANTIRUST LUBRICANT 100 ML":48,
-        "ANTIRUSTproduct_name LUBRICANT 220 ML":24,
+        "ANTIRUST LUBRICANT 220 ML":24,
         "HARD PASTE CAR WAX 180 GRM":12,
         "TONE ROYALITY FOR HER":96,
         "TONE WONDER FOR HER":96,
@@ -216,7 +216,7 @@ with form:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             product_name = st.selectbox(
-                f"{i+1}. Product Name",
+                f"  {i+1} Product Name",
                 product_options,
                 key=f"product_name_{i}"
             )
@@ -233,13 +233,19 @@ with form:
             quantity = st.number_input(f"Quantity", min_value=0, key=f"quantity_{i}")
         with col3:
             if final_product_name in product_rates:
-                unit_rate = product_rates[final_product_name]
-                st.markdown(f"**Unit Rate:** {unit_rate}")
+                unit_rate = st.number_input(
+                    "Unit Rate",
+                    min_value=0,
+                    value=product_rates[final_product_name],
+                    key=f"unit_rate_{i}",
+                    disabled=True
+                )
             else:
                 unit_rate = st.number_input(
-                    f"Unit Rate",
-                    min_value=0.0,
-                    key=f"unit_rate_{i}"
+                    "Unit Rate",
+                    min_value=0,
+                    key=f"unit_rate_{i}",
+                    disabled=False
                 )
         with col4:
             discount_percent = st.number_input(f"Discount (%)", min_value=0, max_value=100, key=f"discount_{i}")
@@ -280,19 +286,20 @@ with form:
 # Add/Remove product buttons
 col1, col2 = st.columns([10, 4])
 with col1:
-    if st.button(f"➕ Add Product ({30-st.session_state.num_products} Items)"):
+    # if st.button(f"➕ Add Product ({30-st.session_state.num_products} Items)"):
+    if st.button(f"➕ Add Product"):
         st.session_state.num_products += 1
-        # st.experimental_rerun()
-        st.rerun()
+        st.experimental_rerun()
+        # st.rerun()
 with col2:
     if st.session_state.num_products > 1 and st.button("➖ Remove Last Product"):
         st.session_state.num_products -= 1
-        # st.experimental_rerun()
-        st.rerun()
+        st.experimental_rerun()
+        # st.rerun()
 
 # Handle form submission outside the form
 if submitted:
-    if st.session_state.num_products <= 30:
+    # if st.session_state.num_products <= 30:
         if customer_name and customer_address and products:
 
             # Calculate total amount and price
@@ -337,5 +344,5 @@ if submitted:
             
         else:
             st.error("Please fill in all required fields and add at least one product")
-    else:
-        st.error("Inovice is FULL! Remove items more than 30 and create a new inovice for it.")
+    # else:
+    #     st.error("Inovice is FULL! Remove items more than 30 and create a new inovice for it.")

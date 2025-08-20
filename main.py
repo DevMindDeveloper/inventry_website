@@ -6,7 +6,7 @@ from utils.google_sheets_data_manager import GoogleSheetsDataManager
 from utils.invoice_generator import InvoiceGenerator
 
 # Initialize data manager
-data_manager = GoogleSheetsDataManager(sheet_name="invoices")
+# data_manager = GoogleSheetsDataManager(sheet_name="invoices")
 invoice_generator = InvoiceGenerator()
 
 # Page configuration
@@ -38,7 +38,8 @@ with open('styles/custom.css') as f:
 if 'num_products' not in st.session_state:
     st.session_state.num_products = 1
 
-st.title("Generate Invoice #" + str(data_manager.get_next_invoice_number()))
+# st.title("Generate Invoice #" + str(data_manager.get_next_invoice_number()))
+st.title("Generate Invoice #" , 1085)
 
 order_booker_options = [
     "Zubair Khan (0315-9288706)",
@@ -311,7 +312,8 @@ if submitted:
             total_amount = sum(item['quantity'] * item['net_rate'] for item in products)
 
             # Generate invoice number
-            invoice_number = data_manager.get_next_invoice_number()
+            # invoice_number = data_manager.get_next_invoice_number()
+            invoice_number = 1085
 
             # Prepare invoice data
             invoice_data = {
@@ -326,7 +328,7 @@ if submitted:
             }
 
             # Save invoice data
-            data_manager.save_invoice(invoice_data)
+            # data_manager.save_invoice(invoice_data)
 
             # Generate PDF
             os.makedirs('generated_invoices', exist_ok=True)
@@ -358,7 +360,7 @@ download_invoice_number = st.sidebar.text_input("Enter Invoice Number")
 download_btn = st.sidebar.button("Download Invoice")
 
 if download_btn and download_invoice_number:
-    invoice = data_manager.get_invoice_by_number(download_invoice_number)
+    # invoice = data_manager.get_invoice_by_number(download_invoice_number)
     if invoice:
         import tempfile
         safe_customer_name = "".join(x for x in invoice.get('customer_name', '') if x.isalnum() or x.isspace()).strip()

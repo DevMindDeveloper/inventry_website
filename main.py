@@ -39,7 +39,7 @@ if 'num_products' not in st.session_state:
     st.session_state.num_products = 1
 
 # st.title("Generate Invoice #" + str(data_manager.get_next_invoice_number()))
-st.title("Generate Invoice #" , 1085)
+# st.title("Generate Invoice #" , 1085)
 
 order_booker_options = [
     "Zubair Khan (0315-9288706)",

@@ -10,6 +10,7 @@ from utils.invoice_generator import InvoiceGenerator
 # data_manager = GoogleSheetsDataManager(sheet_name="invoices")
 invoice_generator = InvoiceGenerator()
 
+st.sidebar.header("Download Invoice")
 
 # Page configuration
 st.set_page_config(

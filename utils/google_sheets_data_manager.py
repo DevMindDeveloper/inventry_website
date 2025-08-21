@@ -52,3 +52,5 @@ class GoogleSheetsDataManager:
                             pass
                 return record
         return None 
+
+data_manager = GoogleSheetsDataManager(sheet_name="invoices")

@@ -2,11 +2,12 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import os
-from utils.google_sheets_data_manager import GoogleSheetsDataManager
+# from utils.google_sheets_data_manager import GoogleSheetsDataManager
+from utils.google_sheets_data_manager import data_manager
 from utils.invoice_generator import InvoiceGenerator
 
 # Initialize data manager
-data_manager = GoogleSheetsDataManager(sheet_name="invoices")
+# data_manager = GoogleSheetsDataManager(sheet_name="invoices")
 invoice_generator = InvoiceGenerator()
 
 def main():

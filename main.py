@@ -10,8 +10,6 @@ from utils.invoice_generator import InvoiceGenerator
 # data_manager = GoogleSheetsDataManager(sheet_name="invoices")
 invoice_generator = InvoiceGenerator()
 
-st.sidebar.header("Download Invoice")
-
 # Page configuration
 st.set_page_config(
     page_title="Invoice Generator",
@@ -373,10 +371,7 @@ if submitted:
                     file_name=f"{safe_customer_name}_{invoice_number}.pdf",
                     mime="application/pdf"
                 )
-            
         else:
             st.error("Please fill in all required fields and add at least one product")
     # else:
     #     st.error("Inovice is FULL! Remove items more than 30 and create a new inovice for it.")
-
-

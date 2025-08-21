@@ -36,6 +36,30 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 with open('styles/custom.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+# Add sidebar for downloading invoice by number
+st.sidebar.header("Download Invoice")
+download_invoice_number = st.sidebar.text_input("Enter Invoice Number")
+download_btn = st.sidebar.button("Download Invoice")
+
+if download_btn and download_invoice_number:
+    invoice = data_manager.get_invoice_by_number(download_invoice_number)
+    if invoice:
+        import tempfile
+        safe_customer_name = "".join(x for x in invoice.get('customer_name', '') if x.isalnum() or x.isspace()).strip()
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+            pdf_path = tmp_file.name
+        invoice_generator.generate_invoice(invoice, pdf_path)
+        with open(pdf_path, "rb") as pdf_file:
+            pdf_bytes = pdf_file.read()
+        st.sidebar.download_button(
+            label=f"Download Invoice #{download_invoice_number} PDF",
+            data=pdf_bytes,
+            file_name=f"{safe_customer_name}_{download_invoice_number}.pdf",
+            mime="application/pdf"
+        )
+    else:
+        st.sidebar.error("Invoice not found.")
+
 # Initialize session state for products
 if 'num_products' not in st.session_state:
     st.session_state.num_products = 1
@@ -354,26 +378,4 @@ if submitted:
     # else:
     #     st.error("Inovice is FULL! Remove items more than 30 and create a new inovice for it.")
 
-# Add sidebar for downloading invoice by number
-st.sidebar.header("Download Invoice")
-download_invoice_number = st.sidebar.text_input("Enter Invoice Number")
-download_btn = st.sidebar.button("Download Invoice")
 
-if download_btn and download_invoice_number:
-    invoice = data_manager.get_invoice_by_number(download_invoice_number)
-    if invoice:
-        import tempfile
-        safe_customer_name = "".join(x for x in invoice.get('customer_name', '') if x.isalnum() or x.isspace()).strip()
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
-            pdf_path = tmp_file.name
-        invoice_generator.generate_invoice(invoice, pdf_path)
-        with open(pdf_path, "rb") as pdf_file:
-            pdf_bytes = pdf_file.read()
-        st.sidebar.download_button(
-            label=f"Download Invoice #{download_invoice_number} PDF",
-            data=pdf_bytes,
-            file_name=f"{safe_customer_name}_{download_invoice_number}.pdf",
-            mime="application/pdf"
-        )
-    else:
-        st.sidebar.error("Invoice not found.")
